@@ -1,0 +1,111 @@
+/* ============================================================
+   Cherry Ye · Design Tokens
+   叶潇蓉个人网站 · 设计令牌源文件（Source of Truth）
+   ------------------------------------------------------------
+   提取自 assets/style.css 的实际用值，向后兼容：
+   现有 8 个颜色令牌 + --serif/--sans/--container/--gutter
+   保持原名原值，其余为在此基础上形式化的隐性系统。
+   采纳方式：在 style.css 顶部 @import "../design-system/tokens.css";
+   然后逐步把硬编码值替换为 var(--token)。当前站点无需改动即可运行。
+   ============================================================ */
+
+:root {
+
+  /* ---------- 颜色 · Color ---------- */
+  /* 文字 */
+  --text-primary:   #1a1a1a;   /* 正文主色 · 标题 */
+  --text-secondary: #5a5a55;   /* 次级正文 · 说明 */
+  --text-tertiary:  #8e8e87;   /* 弱化文字 · 元信息 */
+
+  /* 背景 · 表面 */
+  --bg-primary:  #fafaf7;      /* 全站米白底 */
+  --bg-elevated: #ffffff;      /* 卡片 · 浮层 */
+
+  /* 描边 · 分隔 */
+  --border:        rgba(26, 26, 26, 0.08);   /* 常规分隔线 */
+  --border-strong: rgba(26, 26, 26, 0.16);   /* 强调分隔 */
+  --fill-subtle:   rgba(26, 26, 26, 0.02);   /* 极浅填充 */
+  --fill:          rgba(26, 26, 26, 0.04);   /* 浅填充 · hover 底 */
+
+  /* 品牌绿 · Accent（用于链接、标记、强调） */
+  --accent: #2d5a3d;
+  /* 绿色着色面 · 用于 work-figure-tinted 等
+     注：当前实际用值基于 rgb(33,92,51)，与 --accent(#2d5a3d) 存在细微色相漂移，
+     见 README「待对账」。下方保留现状值以保证视觉一致，下次重构时统一到 --accent。 */
+  --accent-surface:    rgba(33, 92, 51, 0.08);
+  --accent-line:       rgba(33, 92, 51, 0.25);
+  --accent-line-strong:rgba(33, 92, 51, 0.5);
+
+  /* ---------- 字体族 · Font Family ---------- */
+  --serif: 'Fraunces', 'Noto Serif SC', Georgia, serif;               /* 标题 · 展示 */
+  --sans:  'Inter', 'Noto Serif SC', -apple-system, sans-serif;       /* 正文 · 界面 */
+
+  /* ---------- 字号阶梯 · Type Scale ----------
+     编辑刊物式：大字用 clamp 流体缩放，正文以 15px 为基。
+     按角色命名（而非按像素），近似重复值已收敛（见 README）。 */
+  --text-caption:  11px;                       /* 眉标 · 小标签 */
+  --text-small:    12px;                        /* 辅助文字 */
+  --text-meta:     13px;                        /* 元信息 · 页脚 */
+  --text-body-sm:  14px;                        /* 紧凑正文 */
+  --text-body:     15px;                        /* 正文基准 */
+  --text-body-lg:  17px;                        /* 加大正文 */
+  --text-lead:     clamp(17px, 1.4vw, 21px);    /* 导语 */
+  --text-h4:       20px;
+  --text-h3:       clamp(20px, 2.4vw, 24px);
+  --text-h2:       clamp(28px, 3.5vw, 40px);
+  --text-h1:       clamp(34px, 5.5vw, 56px);
+  --text-display:  clamp(44px, 7.5vw, 84px);    /* 首页 Hero 大标题 */
+
+  /* ---------- 字重 · Weight ---------- */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-medium:  500;
+
+  /* ---------- 行高 · Line Height ---------- */
+  --leading-tight:   1.15;   /* 展示大标题 */
+  --leading-snug:    1.35;   /* 中标题 */
+  --leading-normal:  1.5;
+  --leading-body:    1.7;    /* 正文基准 */
+  --leading-relaxed: 1.85;   /* 长文阅读 */
+
+  /* ---------- 字间距 · Tracking ----------
+     逻辑：大字收紧（负值），小字 / 全大写眉标放宽（正值）。 */
+  --tracking-tight:  -0.02em;    /* 展示大字 */
+  --tracking-snug:   -0.005em;   /* 标题 · 加大正文（最常用） */
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+  --tracking-wider:  0.08em;
+  --tracking-widest: 0.12em;     /* 眉标 · 小标签 */
+
+  /* ---------- 圆角 · Radius ---------- */
+  --radius-xs:   2px;    /* 进度条 · 极细标记 */
+  --radius-sm:   6px;    /* 常规容器 */
+  --radius-md:   8px;    /* 卡片 · 图框 */
+  --radius-lg:   18px;   /* 大图框 */
+  --radius-pill: 100px;  /* 胶囊按钮 · pill 标签 */
+  /* 无圆角（0）用于手绘图 wireframe，不设令牌，直接用 0。 */
+
+  /* ---------- 动效 · Motion ---------- */
+  --dur-fast:   0.15s;
+  --dur:        0.25s;   /* 交互默认（最常用） */
+  --dur-slow:   0.3s;
+  --dur-reveal: 0.8s;    /* 滚动入场 */
+  --ease: ease;          /* 站点默认缓动 */
+
+  /* ---------- 布局 · Layout ---------- */
+  --container: 880px;                      /* 正文最大宽 */
+  --gutter:    clamp(24px, 5vw, 48px);     /* 左右留白 */
+  /* 断点（媒体查询无法令牌化，此处仅记录）：640 / 720 / 1100 px */
+
+  /* ---------- 间距 · Spacing ----------
+     建议基线（8px 节奏）。当前 style.css 尚未消费，作为后续统一的目标。 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+}

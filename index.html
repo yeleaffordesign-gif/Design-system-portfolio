@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System · 叶潇蓉</title>
+  <meta name="description" content="Cherry Ye 个人网站设计系统 · 令牌参考与活文档。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./tokens.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--sans);
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      letter-spacing: var(--tracking-snug);
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 var(--gutter); }
+
+    /* header */
+    header { padding: clamp(72px, 12vw, 140px) 0 clamp(48px, 7vw, 88px); border-bottom: 1px solid var(--border); }
+    .mark { font-family: var(--serif); font-size: var(--text-body); font-weight: var(--weight-medium); letter-spacing: var(--tracking-snug); }
+    .mark .dot { color: var(--accent); }
+    .eyebrow { font-size: var(--text-caption); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--text-tertiary); margin-top: 40px; }
+    h1 { font-family: var(--serif); font-size: var(--text-h1); font-weight: var(--weight-light); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); margin-top: 16px; }
+    .lede { font-size: var(--text-lead); color: var(--text-secondary); line-height: var(--leading-normal); margin-top: 22px; max-width: 46ch; }
+
+    /* section scaffold */
+    section { padding: clamp(56px, 8vw, 96px) 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: var(--text-caption); letter-spacing: var(--tracking-widest); text-transform: uppercase; color: var(--accent); }
+    .sec-title { font-family: var(--serif); font-size: var(--text-h3); font-weight: var(--weight-regular); letter-spacing: var(--tracking-snug); margin-top: 12px; }
+    .sec-note { font-size: var(--text-body-sm); color: var(--text-secondary); line-height: var(--leading-normal); margin-top: 12px; max-width: 58ch; }
+    .grid { display: grid; gap: 20px 24px; margin-top: 40px; }
+    .cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .cols-3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 720px) { .cols-3 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .cols-2, .cols-3 { grid-template-columns: 1fr; } }
+
+    /* color swatch */
+    .swatch { }
+    .swatch .chip { height: 76px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+    .swatch .name { font-size: var(--text-small); font-weight: var(--weight-medium); margin-top: 12px; }
+    .swatch .val { font-size: var(--text-caption); color: var(--text-tertiary); margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .swatch .use { font-size: var(--text-caption); color: var(--text-secondary); margin-top: 4px; }
+
+    /* type scale rows */
+    .type-row { display: flex; align-items: baseline; gap: 20px; padding: 16px 0; border-top: 1px solid var(--border); }
+    .type-row:first-child { border-top: none; }
+    .type-meta { flex: 0 0 130px; }
+    .type-meta .tname { font-size: var(--text-small); font-weight: var(--weight-medium); }
+    .type-meta .tval { font-size: var(--text-caption); color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+    .type-sample { font-family: var(--serif); color: var(--text-primary); line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* generic token list card */
+    .tk { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; background: var(--bg-elevated); }
+    .tk .tk-name { font-size: var(--text-small); font-weight: var(--weight-medium); }
+    .tk .tk-val { font-size: var(--text-caption); color: var(--text-tertiary); margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .tk .tk-demo { margin-top: 16px; }
+
+    /* weight */
+    .w-demo { font-family: var(--serif); font-size: 30px; }
+
+    /* radius */
+    .r-demo { height: 56px; background: var(--accent-surface); border: 1px solid var(--accent-line); }
+
+    /* motion */
+    .m-bar { height: 6px; background: var(--fill); border-radius: var(--radius-pill); overflow: hidden; }
+    .m-fill { height: 100%; width: 30%; background: var(--accent); border-radius: var(--radius-pill); animation: slide 2.4s infinite alternate; }
+    @keyframes slide { to { width: 92%; } }
+
+    /* spacing */
+    .sp-row { display: flex; align-items: center; gap: 16px; padding: 8px 0; }
+    .sp-bar { height: 14px; background: var(--accent-line); border-radius: var(--radius-xs); }
+    .sp-lab { font-size: var(--text-caption); color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+
+    /* note callout */
+    .callout { margin-top: 32px; padding: 18px 20px; background: var(--accent-surface); border: 1px solid var(--accent-line); border-radius: var(--radius-sm); font-size: var(--text-body-sm); color: var(--text-secondary); line-height: var(--leading-normal); }
+    .callout b { color: var(--text-primary); font-weight: var(--weight-medium); }
+
+    footer { padding: 56px 0 88px; }
+    footer p { font-size: var(--text-meta); color: var(--text-tertiary); }
+
+    @media (prefers-reduced-motion: reduce) { .m-fill { animation: none; width: 62%; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="wrap">
+      <span class="mark">intentional<span class="dot">.</span></span>
+      <p class="eyebrow">Design System · 令牌参考</p>
+      <h1>一套从真实用值<br>提炼出的系统</h1>
+      <p class="lede">这些令牌不是事前规定的规范，而是从站点 CSS 的实际用值里盘出来、再形式化的系统。每一项都用它自己描述的值渲染。</p>
+    </div>
+  </header>
+
+  <!-- COLOR -->
+  <section>
+    <div class="wrap">
+      <p class="sec-label">Color</p>
+      <h2 class="sec-title">颜色</h2>
+      <p class="sec-note">米白底、深绿强调、克制的灰阶。文字、背景、描边各成一档，绿色仅用于强调与着色面。</p>
+
+      <div class="grid cols-3">
+        <div class="swatch"><div class="chip" style="background:var(--text-primary)"></div><div class="name">text-primary</div><div class="val">#1a1a1a</div><div class="use">正文 · 标题</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-secondary)"></div><div class="name">text-secondary</div><div class="val">#5a5a55</div><div class="use">次级正文</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--text-tertiary)"></div><div class="name">text-tertiary</div><div class="val">#8e8e87</div><div class="use">弱化 · 元信息</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-primary)"></div><div class="name">bg-primary</div><div class="val">#fafaf7</div><div class="use">全站底色</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--bg-elevated)"></div><div class="name">bg-elevated</div><div class="val">#ffffff</div><div class="use">卡片 · 浮层</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--accent)"></div><div class="name">accent</div><div class="val">#2d5a3d</div><div class="use">链接 · 标记</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--border-strong)"></div><div class="name">border-strong</div><div class="val">rgba(26,26,26,.16)</div><div class="use">强调分隔</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--border)"></div><div class="name">border</div><div class="val">rgba(26,26,26,.08)</div><div class="use">常规分隔</div></div>
+        <div class="swatch"><div class="chip" style="background:var(--accent-surface)"></div><div class="name">accent-surface</div><div class="val">rgba(33,92,51,.08)</div><div class="use">着色面</div></div>
+      </div>
+
+      <div class="callout"><b>待对账：</b>着色面（accent-surface / line）基于 rgb(33,92,51)，与 accent 的 #2d5a3d 存在细微色相漂移。现状值已保留以保证视觉一致，建议下次重构时统一由 accent 派生。另有一处暖橙 rgba(168,109,49,.55) 为单点使用，未纳入核心系统。</div>
+    </div>
+  </section>
+
+  <!-- TYPE FAMILY -->
+  <section>
+    <div class="wrap">
+      <p class="sec-label">Typeface</p>
+      <h2 class="sec-title">字体族</h2>
+      <p class="sec-note">衬线承担标题与展示，无衬线承担正文与界面；中文统一落到思源宋体，中英同源、气质一致。</p>
+      <div class="grid cols-2">
+        <div class="tk">
+          <div class="tk-name">serif</div>
+          <div class="tk-val">Fraunces · Noto Serif SC</div>
+          <div class="tk-demo" style="font-family:var(--serif);font-size:34px;font-weight:var(--weight-light);line-height:1.2">充满意向的设计<br><span style="font-size:22px">Intentional Design</span></div>
+        </div>
+        <div class="tk">
+          <div class="tk-name">sans</div>
+          <div class="tk-val">Inter · Noto Serif SC</div>
+          <div class="tk-demo" style="font-family:var(--sans);font-size:20px;line-height:1.55">在技术数据与人类决策之间，设计那层翻译。<br><span style="font-size:15px;color:var(--text-secondary)">The translation layer between systems and people.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPE SCALE -->
+  <section>
+    <div class="wrap">
+      <p class="sec-label">Scale</p>
+      <h2 class="sec-title">字号阶梯</h2>
+      <p class="sec-note">编辑刊物式：大字用 clamp 流体缩放，正文以 15px 为基。按角色命名，近似重复值已收敛。</p>
+      <div style="margin-top:40px">
+        <div class="type-row"><div class="type-meta"><div class="tname">display</div><div class="tval">clamp(44–84)</div></div><div class="type-sample" style="font-size:var(--text-display)">意向</div></div>
+        <div class="type-row"><div class="type-meta"><div class="tname">h1</div><div class="tval">clamp(34–56)</div></div><div class="type-sample" style="font-size:var(--text-h1)">设计那层翻译</div></div>
+        <div class="type-row"><div class="type-meta"><div class="tname">h2</div><div class="tval">clamp(28–40)</div></div><div class="type-sample" style="font-size:var(--text-h2)">复杂度的分配</div></div>
+        <div class="type-row"><div class="type-meta"><div class="tname">h3</div><div class="tval">clamp(20–24)</div></div><div class="type-sample" style="font-size:var(--text-h3)">三个体验设计判断</div></div>
+        <div class="type-row"><div class="type-meta"><div class="tname">lead</div><div class="tval">clamp(17–21)</div></div><div class="type-sample" style="font-size:var(--text-lead);font-family:var(--sans)">从领域事实推导，而非设计风格</div></div>
+        <div class="type-row"><div class="type-meta"><div class="tname">body</div><div class="tval">15px</div></div><div class="type-sample" style="font-size:var(--text-body);font-family:var(--sans)">正文基准，行高 1.7</div></div>
+        <div class="type-row"><div class="type-meta"><div class="tname">meta</div><div class="tval">13px</div></div><div class="type-sample" style="font-size:var(--text-meta);font-family:var(--sans);color:var(--text-tertiary)">元信息 · 页脚 · 说明</div></div>
+        <div class="type-row"><div class="type-meta"><div class="tname">caption</div><div class="tval">11px</div></div><div class="type-sample" style="font-size:var(--text-caption);font-family:var(--sans);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--text-tertiary)">EYEBROW LABEL</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEIGHT + LEADING + TRACKING -->
+  <section>
+    <div class="wrap">
+      <p class="sec-label">Rhythm</p>
+      <h2 class="sec-title">字重 · 行高 · 字间距</h2>
+      <p class="sec-note">三档字重足够表达层级。大字收紧、小字放宽的字间距逻辑，是编辑排版的底层节奏。</p>
+      <div class="grid cols-3">
+        <div class="tk"><div class="tk-name">weight-light</div><div class="tk-val">300</div><div class="tk-demo w-demo" style="font-weight:300">意向 Aa</div></div>
+        <div class="tk"><div class="tk-name">weight-regular</div><div class="tk-val">400</div><div class="tk-demo w-demo" style="font-weight:400">意向 Aa</div></div>
+        <div class="tk"><div class="tk-name">weight-medium</div><div class="tk-val">500</div><div class="tk-demo w-demo" style="font-weight:500">意向 Aa</div></div>
+      </div>
+      <div class="grid cols-3" style="margin-top:24px">
+        <div class="tk"><div class="tk-name">tracking-tight</div><div class="tk-val">-0.02em</div><div class="tk-demo" style="font-family:var(--serif);font-size:26px;letter-spacing:-0.02em">Display 展示</div></div>
+        <div class="tk"><div class="tk-name">tracking-snug</div><div class="tk-val">-0.005em</div><div class="tk-demo" style="font-size:17px;letter-spacing:-0.005em">正文与标题最常用</div></div>
+        <div class="tk"><div class="tk-name">tracking-widest</div><div class="tk-val">0.12em</div><div class="tk-demo" style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-secondary)">SMALL LABEL</div></div>
+      </div>
+      <div class="grid cols-3" style="margin-top:24px">
+        <div class="tk"><div class="tk-name">leading-tight</div><div class="tk-val">1.15</div><div class="tk-demo" style="font-family:var(--serif);font-size:17px;line-height:1.15">大标题的<br>紧凑行距</div></div>
+        <div class="tk"><div class="tk-name">leading-body</div><div class="tk-val">1.7</div><div class="tk-demo" style="font-size:13px;line-height:1.7">正文基准行距，<br>保证阅读舒适度。</div></div>
+        <div class="tk"><div class="tk-name">leading-relaxed</div><div class="tk-val">1.85</div><div class="tk-demo" style="font-size:13px;line-height:1.85">长文阅读行距，<br>呼吸感更强。</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RADIUS + MOTION -->
+  <section>
+    <div class="wrap">
+      <p class="sec-label">Form &amp; Motion</p>
+      <h2 class="sec-title">圆角 · 动效</h2>
+      <p class="sec-note">近乎无阴影的平面系统；圆角从 2px 细节到 100px 胶囊。动效以 0.25s 为默认节奏，克制而连贯。</p>
+      <div class="grid cols-3">
+        <div class="tk"><div class="tk-name">radius-sm</div><div class="tk-val">6px</div><div class="tk-demo r-demo" style="border-radius:6px"></div></div>
+        <div class="tk"><div class="tk-name">radius-md</div><div class="tk-val">8px</div><div class="tk-demo r-demo" style="border-radius:8px"></div></div>
+        <div class="tk"><div class="tk-name">radius-lg</div><div class="tk-val">18px</div><div class="tk-demo r-demo" style="border-radius:18px"></div></div>
+        <div class="tk"><div class="tk-name">radius-pill</div><div class="tk-val">100px</div><div class="tk-demo r-demo" style="border-radius:100px"></div></div>
+        <div class="tk"><div class="tk-name">radius-xs</div><div class="tk-val">2px</div><div class="tk-demo r-demo" style="border-radius:2px;height:56px"></div></div>
+        <div class="tk"><div class="tk-name">dur · ease</div><div class="tk-val">0.25s · ease</div><div class="tk-demo"><div class="m-bar"><div class="m-fill"></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAYOUT + SPACING -->
+  <section>
+    <div class="wrap">
+      <p class="sec-label">Layout</p>
+      <h2 class="sec-title">布局 · 间距</h2>
+      <p class="sec-note">正文最大宽 880px，左右留白随视口 24–48px 流动。间距为 8px 节奏的建议基线，供后续统一。</p>
+      <div class="grid cols-2">
+        <div class="tk"><div class="tk-name">container</div><div class="tk-val">880px</div><div class="tk-demo" style="height:10px;background:var(--accent-line);border-radius:var(--radius-pill)"></div></div>
+        <div class="tk"><div class="tk-name">gutter</div><div class="tk-val">clamp(24px, 5vw, 48px)</div><div class="tk-demo" style="display:flex;gap:6px"><span style="width:24px;height:10px;background:var(--accent-line);border-radius:2px"></span><span style="flex:1;height:10px;background:var(--fill);border-radius:2px"></span><span style="width:24px;height:10px;background:var(--accent-line);border-radius:2px"></span></div></div>
+      </div>
+      <div style="margin-top:28px;max-width:560px">
+        <div class="sp-row"><span class="sp-bar" style="width:4px"></span><span class="sp-lab">space-1 · 4px</span></div>
+        <div class="sp-row"><span class="sp-bar" style="width:8px"></span><span class="sp-lab">space-2 · 8px</span></div>
+        <div class="sp-row"><span class="sp-bar" style="width:16px"></span><span class="sp-lab">space-4 · 16px</span></div>
+        <div class="sp-row"><span class="sp-bar" style="width:24px"></span><span class="sp-lab">space-5 · 24px</span></div>
+        <div class="sp-row"><span class="sp-bar" style="width:32px"></span><span class="sp-lab">space-6 · 32px</span></div>
+        <div class="sp-row"><span class="sp-bar" style="width:48px"></span><span class="sp-lab">space-7 · 48px</span></div>
+        <div class="sp-row"><span class="sp-bar" style="width:64px"></span><span class="sp-lab">space-8 · 64px</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p>Design tokens 源文件 · tokens.css / tokens.json · 与 assets/style.css 同源</p>
+      <p style="margin-top:6px">© 2026 叶潇蓉 · Cherry Ye</p>
+    </div>
+  </footer>
+
+</body>
+</html>
